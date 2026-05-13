@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quest for the Lost Amulet – Stage 8</title>
+    <style>
+        body { margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; background: #111; flex-direction: column; }
+        canvas { border: 2px solid #333; }
+        .controls { margin-top: 10px; display: flex; gap: 10px; }
+        button { padding: 5px 10px; cursor: pointer; }
+        button:disabled { opacity: 0.5; cursor: not-allowed; }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <canvas ref="gameCanvas" width="800" height="400"></canvas>
+        <div class="controls">
+            <button @click="setLevel(1)" :disabled="!gameOver">Level 1</button>
+            <button @click="setLevel(2)" :disabled="!gameOver">Level 2</button>
+            <button @click="setLevel(3)" :disabled="!gameOver">Level 3</button>
+            <button @click="restartGame">Restart</button>
+        </div>
+    </div>
+    <script src="main9.js"></script>
+</body>
+</html>

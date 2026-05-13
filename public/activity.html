@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Jump Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+      padding: 20px;
+    }
+    #gameContainer {
+        
+        border-radius: 20px;
+      width: 1000px;
+      height: 300px;
+      border: 2px solid #333;
+      position: relative;
+      overflow: hidden;
+      margin: auto;
+      background: linear-gradient(black,green,white);
+    }
+    #score {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      /* margin-left: 20cm; */
+      text-align: center;
+    }
+    #gameArea {
+        
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+    #player {
+        border-radius: 20px;
+      position: absolute;
+      bottom: 0;
+      left: 60px;
+      width: 35px;
+      height: 66px;
+      background: radial-gradient(rgb(212, 0, 255),white);
+    }
+    #obstacle {
+      position: absolute;
+      bottom: 0;
+      width: 30px;
+      height: 40px;
+      border-radius: 20px;
+      
+      background-color: #e74c3c;
+    }
+    #gameOver {
+      /* display: none; */
+      text-align: center;
+    }
+    .gam{
+        border-radius: 30px;
+        color: white;
+        background-color: rgb(7, 8, 34);
+    }
+  </style>
+</head>
+<body>
+    <div class="gam">
+  <div id="score">Score: 0</div>
+  <div id="gameContainer">
+    <div id="gameArea">
+      <div id="player"></div>
+      <div id="obstacle"></div>
+    </div>
+  </div>
+  <div id="gameOver">
+    <h2>Game Over!</h2>
+    <p>Your final score: <span id="finalScore"></span></p>
+  </div>
+  </div>
+  <script>
+    const player = document.getElementById('player');
+    const obstacle = document.getElementById('obstacle');
+    const scoreDisplay = document.getElementById('score');
+    const gameContainer = document.getElementById('gameContainer');
+    const gameArea = document.getElementById('gameArea');
+    const gameOverDiv = document.getElementById('gameOver');
+    const finalScoreSpan = document.getElementById('finalScore');
+
+    let score = 0;
+    let gameOver = false;
+    let obstacleX = 1000;
+    let gameLoopId = null;
+    let playerY = 30;
+    let isJumping = false;
+    const jumpPeak = 80; // max jump height
+    const jumpSpeed = 5; // speed of jump
+
+    function startGame() {
+      gameLoop();
+      window.addEventListener('keydown', handleKeyPress);
+    }
+
+    function gameLoop() {
+      if (gameOver) {
+        cancelAnimationFrame(gameLoopId);
+        return;
+      }
+
+      // Move obstacle left
+      obstacleX -= 6;
+      if (obstacleX < -50) {
+        obstacleX = 600; // reset position
+        incrementScore();
+      }
+      obstacle.style.left = obstacleX + 'px';
+
+      checkCollision();
+
+      gameLoopId = requestAnimationFrame(gameLoop);
+    }
+
+    function checkCollision() {
+      const playerRect = player.getBoundingClientRect();
+      const obstacleRect = obstacle.getBoundingClientRect();
+      const containerRect = gameContainer.getBoundingClientRect();
+
+      // Check overlap
+      if (
+        playerRect.x < obstacleRect.x + obstacleRect.width &&
+        playerRect.x + playerRect.width > obstacleRect.x &&
+        playerRect.y < obstacleRect.y + obstacleRect.height &&
+        playerRect.y + playerRect.height > obstacleRect.y
+      ) {
+        endGame();
+      }
+    }
+
+    function incrementScore() {
+      score++;
+      scoreDisplay.textContent = 'Score: ' + score;
+    }
+
+    function handleKeyPress(e) {
+      if (e.code === 'Space' && !isJumping && !gameOver) {
+        jump();
+      }
+    }
+
+    function jump() {
+      isJumping = true;
+      const jumpUp = () => {
+        if (playerY < jumpPeak) {
+          playerY += jumpSpeed;
+          player.style.bottom = playerY + '1px';
+          requestAnimationFrame(jumpUp);
+        } else {
+          fall();
+        }
+      };
+      jumpUp();
+    }
+
+    function fall() {
+      const fallDown = () => {
+        if (playerY > 0) {
+          playerY -= jumpSpeed;
+          player.style.bottom = playerY + 'px';
+          requestAnimationFrame(fallDown);
+        } else {
+          playerY = 0;
+          player.style.bottom = '0px';
+          isJumping = false;
+        }
+      };
+      fallDown();
+    }
+
+    function endGame() {
+      gameOver = true;
+      cancelAnimationFrame(gameLoopId);
+      document.getElementById('finalScore').textContent = score;
+      document.getElementById('gameOver').style.display = 'block';
+    }
+
+    // Start the game
+    startGame();
+  </script>
+</body>
+</html>
