@@ -16,7 +16,7 @@ const isJumping = ref(false);
 let gameLoop;
 
 // Sound Effects
-const jumpSound = new Audio('./jump.mp3');
+const jumpSound = new Audio('./music.mp3');
 const hitSound = new Audio('./points.mp3');
 
 
