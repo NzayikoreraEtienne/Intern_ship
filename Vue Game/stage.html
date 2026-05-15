@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quest for the Lost Amulet | IT</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Vue 2 CDN -->
+    <script src="vue.js"></script>
+    <script src="vuex.js"></script>
+</head>
+<body>
+    <div id="app">
+        <canvas ref="gameCanvas" width="800" height="400"></canvas>
+        <div class="controls">
+            <button @click="setLevel(1)" :disabled="!gameOver">Level 1</button>
+            <button @click="setLevel(2)" :disabled="!gameOver">Level 2</button>
+            <button @click="setLevel(3)" :disabled="!gameOver">Level 3</button>
+            <button @click="setLevel(4)" :disabled="!gameOver">Level 4</button>
+            <button @click="setLevel(5)" :disabled="!gameOver">Level 5</button>
+            <button @click="setLevel(6)" :disabled="!gameOver">Level 6</button>
+            <button @click="setLevel(7)" :disabled="!gameOver">Level 7</button>
+            <button @click="setLevel(8)" :disabled="!gameOver">Level 8</button>
+            <button @click="setLevel(9)" :disabled="!gameOver">Level 9</button>
+            <button @click="restartGame">Restart</button>
+            <button @click="startGame">Pause</button>
+        </div>
+    </div>
+    <script src="store.js"></script> 
+    <script src="main.js"></script> 
+</body>
+</html>
